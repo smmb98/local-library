@@ -1,0 +1,30 @@
+<%- include('./includes/layout.ejs') %>
+</head>
+
+<body>
+  <%- include('./includes/sidebar.ejs') %>
+
+  <h1><%= title %></h1>
+  <ul>
+    <% if (book_list.length > 0) { %>
+    <% book_list.forEach(book => { %>
+    <li>
+      <!-- We use book.url to provide the link to the detail record for each book (we've implemented this route, but not the page yet). This is a virtual property of the Book model which uses the model instance's _id field to produce a unique URL path. -->
+      <a href="<%= book.url %> "><%= book.title %></a>
+      (<%= book.author.name %>)
+    </li>
+    <% }) %>
+    <% } else { %>
+    <li>There are no books.</li>
+    <% } %>
+  </ul>
+
+  </div>
+  <!--From sidebar.ejs, class="col-sm-10"  -->
+  </div>
+  <!--From sidebar.ejs, class="row"  -->
+  </div>
+  <!--From sidebar.ejs, class="container-fluid"  -->
+</body>
+
+</html>

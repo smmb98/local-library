@@ -1,0 +1,32 @@
+<%- include('./includes/layout.ejs') %>
+</head>
+
+<body>
+	<%- include('./includes/sidebar.ejs') %>
+
+	<h1><%= title %></h1>
+
+	<ul>
+		<% if (genre_list.length > 0) { %>
+		<% genre_list.forEach(genre => { %>
+		<li>
+			<a href="<%= genre.url %>"><%= genre.name %></a> 
+		</li>
+		<% }) %>
+		<% } else { %>
+		<li>
+			There are no genres.
+		</li>
+		<% } %>
+	</ul>
+
+
+	</div>
+	<!--From sidebar.ejs, class="col-sm-10"  -->
+	</div>
+	<!--From sidebar.ejs, class="row"  -->
+	</div>
+	<!--From sidebar.ejs, class="container-fluid"  -->
+</body>
+
+</html>
