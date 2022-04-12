@@ -38,16 +38,16 @@
 
 		<div class="form-group">
 			<label for="due_back">Date when book available: </label>
-			<input type="date" id="due_back" class="form-control" name='due_back' value="<%= 'undefined' === typeof bookinstance ? '' : bookinstance.due_back %> ">
+			<input type="date" id="due_back" class="form-control" name='due_back' value="<%= 'undefined' === typeof bookinstance ? '' : bookinstance.due_back %>" required='true'>
 		</div>
 
 		<div class="form-group">
 			<label for="status">Status: </label>
-			<select name="" id="status" class="form-control" type='select' placeholder='Select status' name='status' required='true'>
+			<select name="status" id="status" class="form-control" type='select' placeholder='Select status' required='true'>
                 <option value="" disabled selected hidden>Select Status</option>
 				<option value="Maintenance">Maintenance</option>
 				<option value="Available">Available</option>
-				<option value="Maintenance">Loaned</option>
+				<option value="Loaned">Loaned</option>
 				<option value="Reserved">Reserved</option>
 			</select>
 		</div>

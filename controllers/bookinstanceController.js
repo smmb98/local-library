@@ -74,7 +74,8 @@ exports.bookinstance_create_post = [
   (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
-
+    // console.log(req.body);
+    // name on html tag sends value to req.body
     // Create a BookInstance object with escaped and trimmed data.
     var bookinstance = new BookInstance({
       book: req.body.book,
