@@ -13,7 +13,7 @@ exports.author_list = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      res.render("author_list", {
+      res.render("authors/author_list", {
         title: "Author_list",
         author_list: list_authors,
       });
@@ -44,7 +44,7 @@ exports.author_detail = function (req, res, next) {
         return next(err);
       }
       // Successful, so render.
-      res.render("author_detail", {
+      res.render("authors/author_detail", {
         title: "Author Detail",
         author: results.author,
         author_books: results.authors_books,
@@ -56,7 +56,7 @@ exports.author_detail = function (req, res, next) {
 // Display Author create form on GET.
 exports.author_create_get = function (req, res, next) {
   // res.send("NOT IMPLEMENTED: Author create GET");
-  res.render("author_form", { title: "Create Author" });
+  res.render("authors/author_form", { title: "Create Author" });
 };
 // Handle Author create on POST.
 exports.author_create_post = [
@@ -92,7 +92,7 @@ exports.author_create_post = [
     if (!errors.isEmpty()) {
       // There are errors. Render form again with sanitized values/errors messages.
       console.log("error in autho creation: ", errors);
-      res.render("author_form", {
+      res.render("authors/author_form", {
         title: "Create Author",
         author: req.body,
         errors: errors.array(),

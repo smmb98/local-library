@@ -1,0 +1,68 @@
+<%- include('../includes/layout.ejs') %>
+</head>
+
+<body>
+	<%- include('../includes/sidebar.ejs') %>
+
+	<h1><%= title %></h1>
+
+	<form action="" method="post">
+		<div class="form-group">
+			<label for="book">Book:
+				<select name="book" id="book" class="form-control" type="select" placeholder="Select book" required='true'>
+                    
+					<% book_list.sort(function(a, b) {
+                    let textA = a.title.toUpperCase();
+                    let textB = b.title.toUpperCase();
+                    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+                %>
+                <option value="" disabled selected hidden>Select book title</option>
+					<% for (let book of book_list) { %>
+					<option value="<%= book._id %>" selected="
+                        <% if (selected_book==book._id.toString()) { %>
+                         <%= 'selected' %> 
+                        <% } %>
+                        <% //selected_book==book._id.toString() ? 'selected' : false %>
+                        ">
+						<%= book.title %>
+					</option>
+             		<% } %>
+				</select>
+			</label>
+		</div>
+
+		<div class="form-group">
+			<label for="imprint">Imprint: </label>
+			<input type="text" id="imprint" class="form-control" type='text' placeholder='Publisher and date information' name='imprint' required='true' value="<%= 'undefined' === typeof bookinstance ? '' : bookinstance.imprint %>">
+		</div>
+
+		<div class="form-group">
+			<label for="due_back">Date when book available: </label>
+			<input type="date" id="due_back" class="form-control" name='due_back' value="<%= 'undefined' === typeof bookinstance ? '' : bookinstance.due_back %> ">
+		</div>
+
+		<div class="form-group">
+			<label for="status">Status: </label>
+			<select name="" id="status" class="form-control" type='select' placeholder='Select status' name='status' required='true'>
+                <option value="" disabled selected hidden>Select Status</option>
+				<option value="Maintenance">Maintenance</option>
+				<option value="Available">Available</option>
+				<option value="Maintenance">Loaned</option>
+				<option value="Reserved">Reserved</option>
+			</select>
+		</div>
+
+		<button class="btn btn-primary" type='submit'>Submit</button>
+
+	</form>
+
+	<% if (typeof errors !== 'undefined') { %>
+	<ul>
+		<% errors.forEach(error => { %>
+		<li><%= error.msg %></li>
+		<% }) %>
+	</ul>
+	<% } %>
+
+
+	<%- include('../includes/footer.ejs') %>

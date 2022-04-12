@@ -12,7 +12,7 @@ exports.genre_list = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      res.render("genre_list", {
+      res.render("genres/genre_list", {
         title: "Genre_list",
         genre_list: list_genre,
       });
@@ -45,7 +45,7 @@ exports.genre_detail = function (req, res, next) {
         return next(err);
       }
       // Successful, so render
-      res.render("genre_detail", {
+      res.render("genres/genre_detail", {
         title: "Genre Detail",
         genre: results.genre,
         genre_books: results.genre_books,
@@ -57,7 +57,7 @@ exports.genre_detail = function (req, res, next) {
 // Display Genre create form on GET.
 exports.genre_create_get = function (req, res, next) {
   // res.send("NOT IMPLEMENTED: Genre create GET");
-  res.render("genre_form", { title: "Create Genre" });
+  res.render("genres/genre_form", { title: "Create Genre" });
 };
 
 // Handle Genre create on POST.
@@ -75,7 +75,7 @@ exports.genre_create_post = [
 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
-      res.render("genre_form", {
+      res.render("genres/genre_form", {
         title: "Create Genre",
         genre: genre,
         errors: errors.array(),
