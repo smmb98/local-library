@@ -6,20 +6,20 @@
 
 	<h1><%= title %></h1>
 
-    <form action="" method="post">
-        <div class="form-group">
-            <label for="name">Genre: </label>
-            <input type="text" id="name" class="form-control" placeholder="Fantasy, Poetry, etc" name="name" value="<% typeof genre === 'undefined' ? '' : genre.name %>" required='true'>
-        </div>
-        <button class="btn btn-primary" type="submit">Submit</button>
-    </form>
+	<form action="" method="post">
+		<div class="form-group">
+			<label for="name">Genre: </label>
+			<input type="text" id="name" class="form-control" placeholder="Fantasy, Poetry, etc" name="name" value="<% if (editing) { %><%= genre.name %><% } %>" required='true'>
+		</div>
+		<button class="btn btn-primary" type="submit">Submit</button>
+	</form>
 
-    <% if (typeof errors !== 'undefined') { %>
-     <ul>
-         <% errors.forEach(error => { %>
-          <li><%= error.msg %></li>
-         <% }) %>
-     </ul>
-    <% } %>
+	<% if (typeof errors !== 'undefined') { %>
+	<ul>
+		<% errors.forEach(error => { %>
+		<li><%= error.msg %></li>
+		<% }) %>
+	</ul>
+	<% } %>
 
-<%- include('../includes/footer.ejs') %>
+	<%- include('../includes/footer.ejs') %>

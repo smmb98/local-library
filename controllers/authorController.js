@@ -56,7 +56,7 @@ exports.author_detail = function (req, res, next) {
 // Display Author create form on GET.
 exports.author_create_get = function (req, res, next) {
   // res.send("NOT IMPLEMENTED: Author create GET");
-  res.render("authors/author_form", { title: "Create Author" });
+  res.render("authors/author_form", { title: "Create Author", editing: false });
 };
 // Handle Author create on POST.
 exports.author_create_post = [
@@ -96,6 +96,7 @@ exports.author_create_post = [
         title: "Create Author",
         author: req.body,
         errors: errors.array(),
+        editing: false,
       });
       return;
     } else {
@@ -188,10 +189,110 @@ exports.author_delete_post = function (req, res, next) {
 
 // Display Author update form on GET.
 exports.author_update_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author update GET");
+  async.parallel(
+    {
+      author: function (callback) {
+        Author.findById(req.params.id).exec(callback);
+      },
+    },
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      // console.log(results.book.title);
+      if (results.author == null) {
+        // No results.
+        var err = new Error("Author not found");
+        err.status = 404;
+        return next(err);
+      }
+      // Success.
+
+      res.render("authors/author_form", {
+        title: "Update Author",
+        author: results.author,
+        editing: true,
+      });
+    }
+  );
 };
 
 // Handle Author update on POST.
-exports.author_update_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author update POST");
-};
+exports.author_update_post = [
+  // Validate and sanitize fields.
+  body("first_name")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("First name must be specified.")
+    .isAlpha()
+    .withMessage("First name has non-alphanumeric characters."),
+  body("family_name")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Family name must be specified.")
+    .isAlpha()
+    .withMessage("Family name has non-alphanumeric characters."),
+  body("date_of_birth", "Invalid date of birth")
+    .optional({ checkFalsy: true })
+    .isISO8601()
+    .toDate(),
+  body("date_of_death", "Invalid date of death")
+    .optional({ checkFalsy: true })
+    .isISO8601()
+    .toDate(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    var author = new Author({
+      first_name: req.body.first_name,
+      family_name: req.body.family_name,
+      date_of_birth: req.body.date_of_birth,
+      date_of_death: req.body.date_of_death,
+      _id: req.params.id,
+    });
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/error messages.
+
+      // Get all authors and genres for form.
+      async.parallel(
+        {
+          author: function (callback) {
+            Author.findById(req.params.id).exec(callback);
+          },
+        },
+        function (err, results) {
+          if (err) {
+            return next(err);
+          }
+
+          res.render("authors/author_form", {
+            title: "Update Author",
+            author: results.author,
+            errors: errors.array(),
+            editing: true,
+          });
+        }
+      );
+      return;
+    } else {
+      // Data from form is valid. Update the record.
+      Author.findByIdAndUpdate(
+        req.params.id,
+        author,
+        {},
+        function (err, theauthor) {
+          if (err) {
+            return next(err);
+          }
+          // Successful - redirect to book detail page.
+          res.redirect(theauthor.url);
+        }
+      );
+    }
+  },
+];

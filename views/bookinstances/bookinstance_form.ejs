@@ -11,44 +11,39 @@
 			<label for="book">Book:
 				<select name="book" id="book" class="form-control" type="select" placeholder="Select book" required='true'>
                     
-					<% book_list.sort(function(a, b) {
+					<% books.sort(function(a, b) {
                     let textA = a.title.toUpperCase();
                     let textB = b.title.toUpperCase();
                     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
                 %>
                 <option value="" disabled selected hidden>Select book title</option>
-					<% for (let book of book_list) { %>
-					<option value="<%= book._id %>" selected="
-                        <% if (selected_book==book._id.toString()) { %>
-                         <%= 'selected' %> 
-                        <% } %>
-                        <% //selected_book==book._id.toString() ? 'selected' : false %>
-                        ">
-						<%= book.title %>
-					</option>
+					<% for (let book of books) { %>
+						
+					<option value="<%= book._id %>" <% if (editing) { %><% if (book.title===bookinstance.book.title) { %> selected <% } %><% } %>><%= book.title %></option>
+
              		<% } %>
 				</select>
 			</label>
 		</div>
-
+<%= //'undefined' === typeof bookinstance ? '' : bookinstance.imprint %>
 		<div class="form-group">
 			<label for="imprint">Imprint: </label>
-			<input type="text" id="imprint" class="form-control" type='text' placeholder='Publisher and date information' name='imprint' required='true' value="<%= 'undefined' === typeof bookinstance ? '' : bookinstance.imprint %>">
+			<input type="text" id="imprint" class="form-control" type='text' placeholder='Publisher and date information' name='imprint' required='true' value="<% if (editing) { %><%= bookinstance.imprint %><% } %>">
 		</div>
 
 		<div class="form-group">
 			<label for="due_back">Date when book available: </label>
-			<input type="date" id="due_back" class="form-control" name='due_back' value="<%= 'undefined' === typeof bookinstance ? '' : bookinstance.due_back %>" required='true'>
+			<input type="date" id="due_back" class="form-control" name='due_back' value="<% if (editing) { %><%= bookinstance.due_back_yyyy_mm_dd %><% } %>" required='true'>
 		</div>
 
 		<div class="form-group">
 			<label for="status">Status: </label>
 			<select name="status" id="status" class="form-control" type='select' placeholder='Select status' required='true'>
                 <option value="" disabled selected hidden>Select Status</option>
-				<option value="Maintenance">Maintenance</option>
-				<option value="Available">Available</option>
-				<option value="Loaned">Loaned</option>
-				<option value="Reserved">Reserved</option>
+				<option value="Maintenance" <% if (editing) { %><% if (bookinstance.status === "Maintenance") { %> selected <% } %><% } %> >Maintenance</option>
+				<option value="Available" <% if (editing) { %><% if (bookinstance.status === "Available") { %> selected <% } %><% } %> >Available</option>
+				<option value="Loaned" <% if (editing) { %><% if (bookinstance.status === "Loaned") { %> selected <% } %><% } %> >Loaned</option>
+				<option value="Reserved" <% if (editing) { %><% if (bookinstance.status === "Reserved") { %> selected <% } %><% } %> >Reserved</option>
 			</select>
 		</div>
 

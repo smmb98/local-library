@@ -9,37 +9,34 @@
 	<form action="" method="post">
 		<div class="form-group">
 			<label for="title">Title: </label>
-			<input type="text" id="title" class="form-control" placeholder="Name of book" name="title" value="<% typeof book === 'undefined' ? '' : book.name %>" required='true'>
+			<input type="text" id="title" class="form-control" placeholder="Name of book" name="title" value="<% if (editing) { %><%= book.title %><% } %>" required='true'>
 		</div>
 
 		<div class="form-group">
 			<label for="author">Author: </label>
-			<select type="text" id="author" class="form-control" placeholder="Select author" name="author" required='true'>
-                <option value="" disabled selected hidden>Select author</option>
+			<select type="select" id="author" class="form-control" placeholder="Select author" name="author" required='true'>
+				<option value="" disabled selected>Select author</option>
 				<% authors.sort(function(a, b) {
                     let textA = a.family_name.toUpperCase();
                     let textB = b.family_name.toUpperCase();
                     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;}); 
                 %>
 				<% for (let author of authors) { %>
-				<% if (typeof book !== 'undefined') { %>
-                    
-				<option value="<%= author._id %>" selected="<% author._id.toString() === book.author._id.toString() ? 'selected' : false %>"><%= author.name %></option>
 
-				<% } else { %>
-				<option value="<%= author._id %>"><%= author.name %></option>
+				<!-- Handle GET form, where book.author is an object, and POST form, where it is a string -->
+
+				<option value="<%= author._id %>" <% if (editing) { %><% if (author.name === book.author.name) { %> selected <% } %><% } %>><%= author.name %></option>
 				<% } %>
-				<% } %>
-            </select>
+			</select>
 		</div>
 		<div class="form-group">
 			<label for="summary">Summary: </label>
-			<textarea name="summary" id="summary" class="form-control" required='true', placeholder='Summary'><%= "undefined" === typeof book ? '' : book.summary %></textarea>
+			<textarea name="summary" id="summary" class="form-control" required='true' , placeholder='Summary'><% if (editing) { %><%= book.summary %><% } %></textarea>
 		</div>
-			
+
 		<div class="form-group">
 			<label for="isbn">ISBN: </label>
-			<input type="text" name="isbn" id="isbn" class="form-control" placeholder='ISBN13' value="<%= "undefined" === typeof book ? '' : book.isbn %>" required='true'>
+			<input type="text" name="isbn" id="isbn" class="form-control" placeholder='ISBN13' value="<% if (editing) { %><%= book.isbn %><% } %>" required='true'>
 		</div>
 
 		<div class="form-group">
@@ -47,7 +44,7 @@
 			<div>
 				<% genres.forEach(genre => { %>
 				<div style='display: inline; padding-right:10px;'>
-					<input type="checkbox" name="genre" id="genre._id" class="checkbox-input" value="<%=  genre._id %>" checked="genre.checked">
+					<input type="checkbox" name="genre" id="genre._id" class="checkbox-input" value="<%= genre._id %>" <% if (editing) { %> <% book.genre.forEach(book_genre => { %> <% if (genre.name === book_genre.name) { %>  checked  <% } %><% }) %><% } %>>
 					<label for="genre._id"><%= genre.name %></label>
 				</div>
 				<% }) %>
@@ -67,4 +64,3 @@
 	<% } %>
 
 	<%- include('../includes/footer.ejs') %>
-
