@@ -4,28 +4,32 @@
 <body>
 	<%- include('../includes/sidebar.ejs') %>
 
-	<h1>ID: <%= bookinstance._id %></h1>
-
-	<p><strong>Title: </strong>
-		<a href="<%= bookinstance.book.url %>"><%= bookinstance.book.title %></a>
-	</p>
-	<p><strong>Imprint: </strong><%= bookinstance.imprint %></p>
+	<h1><%= title %>: <%= bookinstance.imprint %></h1>
 	<p><strong>Status: </strong>
-
-		<% if (bookinstance.status=='Available') { %>
+        <% if (bookinstance.status=='Available') { %>
 		<span class="text-success"><%= bookinstance.status %></span>
 		<% } else if (bookinstance.status=='Maintenance') { %>
 		<span class="text-danger"><%= bookinstance.status %></span>
 		<% } else { %>
 		<span class="text-warning"><%= bookinstance.status %></span>
 		<% } %>
-	</p>
+    </p>
 
 	<% if (bookinstance.status!='Available') { %>
 	<p><strong>Due back: </strong><%= bookinstance.due_back_formatted %> </p>
 	<% } %>
 
+    <h4><strong>Book:</strong> (<%= book.title %>)</h4>
+	
 	<hr>
-	<p><a href="<%= bookinstance.url+'/delete' %>">Delete Copy</a></p>
+	<p>Do you really want to delete this Copy?</p>
 
-<%- include('../includes/footer.ejs') %>
+	<form action="" method="post">
+		<div class="form-group">
+			<input type="hidden" id="instanceid" class="form-control" name='instanceid' required='true' value=<%= bookinstance._id %>>
+		</div>
+
+		<button class="btn btn-primary" type="submit">Delete</button>
+	</form>
+
+	<%- include('../includes/footer.ejs') %>

@@ -5,7 +5,6 @@ const BookInstance = require("../models/bookinstance");
 const { body, validationResult } = require("express-validator");
 
 const async = require("async");
-const book = require("../models/book");
 
 exports.index = function (req, res, next) {
   // res.send("NOT IMPLEMENTED: Site Home Page");
@@ -210,7 +209,7 @@ exports.book_create_post = [
 ];
 
 // Display book delete form on GET.
-exports.book_delete_get = function (req, res) {
+exports.book_delete_get = function (req, res, next) {
   async.parallel(
     {
       book: function (callback) {
@@ -246,7 +245,7 @@ exports.book_delete_get = function (req, res) {
 };
 
 // Handle book delete on POST.
-exports.book_delete_post = function (req, res) {
+exports.book_delete_post = function (req, res, next) {
   async.parallel(
     {
       book: function (callback) {
@@ -275,7 +274,7 @@ exports.book_delete_post = function (req, res) {
         return;
       } else {
         // Author has no books. Delete object and redirect to the list of authors.
-        Book.findByIdAndRemove(req.body.bookid, function deleteAuthor(err) {
+        Book.findByIdAndRemove(req.body.bookid, function deleteBook(err) {
           if (err) {
             return next(err);
           }

@@ -4,16 +4,16 @@
 <body>
 	<%- include('../includes/sidebar.ejs') %>
 
-	<h1><%= title %>: <%= author.name %></h1>
-	<p><%= author.lifespan %> </p>
+	<h1><%= title %>: <%= genre.name %></h1>
+	
 
-	<% if (author_books.length) { %>
-	<p><strong>Delete the following books before attempting to delete this author.</strong></p>
+	<% if (genre_books.length) { %>
+	<p><strong>Delete the following books before attempting to delete this genre.</strong></p>
 
 	<div style='margin-left:20px;margin-top:20px'>
 		<h4>Books</h4>
 		<dl>
-			<% author_books.forEach(book => { %>
+			<% genre_books.forEach(book => { %>
 			<dt>
 				<a href="<%= book.url %>"><%= book.title %></a>
 			</dt>
@@ -25,15 +25,16 @@
 	</div>
 
 	<% } else { %>
-	<p>Do you really want to delete this Author?</p>
+	<p>Do you really want to delete this Genre?</p>
 
 	<form action="" method="post">
 		<div class="form-group">
-			<input type="hidden" id="authorid" class="form-control" name='authorid' required='true' value=<%= author._id %>>
+			<input type="hidden" id="genreid" class="form-control" name='genreid' required='true' value=<%= genre._id %>>
 		</div>
 
 		<button class="btn btn-primary" type="submit">Delete</button>
 	</form>
 	<% } %>
 	
+    
 	<%- include('../includes/footer.ejs') %>

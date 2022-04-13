@@ -9,7 +9,7 @@
 		<% bookinstance_list.forEach(instance => { %>
 		<li>
 			<!-- We use instance.url to provide the link to the detail record for each book (we've implemented this route, but not the page yet). This is a virtual property of the Book model which uses the model instance's _id field to produce a unique URL path. -->
-			<a href="<%= instance.url %>"><%= instance.book.title %> : <%= instance.imprint %> </a>
+			<a href="<%= instance.url %>"> <%= instance.book.title %> : <%= instance.imprint %> </a>
 			<% if (instance.status === 'Available') { %>
 			<span class="text-success"><%= instance.status %></span>
 			<% } else if (instance.status === 'Maintenance') { %>
