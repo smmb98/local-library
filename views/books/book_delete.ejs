@@ -1,0 +1,50 @@
+<%- include('../includes/layout.ejs') %>
+</head>
+
+<body>
+	<%- include('../includes/sidebar.ejs') %>
+
+	<h1><%= title %>: <%= book.title %></h1>
+	<p><strong>Author: </strong>(<%= book_author.name %>)</p>
+
+	<% if (book_bookinstance.length > 0) { %>
+	<p><strong>Delete the following bookinstances before attempting to delete this book.</strong></p>
+
+	<div style='margin-left:20px;margin-top:20px'>
+		<h4>Copies</h4>
+		<dl>
+			<% book_bookinstance.forEach(instance => { %>
+			<hr>
+			<dt>
+				<a href="<%= instance.url %>"><%= instance.imprint %> </a>
+			</dt>
+			<dd>
+				<% if (instance.status=='Available') { %>
+				<span class="text-success"><%= instance.status %></span>
+				<% } else if (instance.status=='Maintenance') { %>
+				<span class="text-danger"><%= instance.status %></span>
+				<% } else { %>
+				<span class="text-warning"><%= instance.status %></span>
+				<% } %>
+				<% if (instance.status!='Available') { %>
+				<p><strong>Due back: </strong><%= instance.due_back_formatted %> </p>
+				<% } %>
+			</dd>
+
+			<% }) %>
+		</dl>
+	</div>
+
+	<% } else { %>
+	<p>Do you really want to delete this Book?</p>
+
+	<form action="" method="post">
+		<div class="form-group">
+			<input type="hidden" id="bookid" class="form-control" name='bookid' required='true' value=<%= book._id %>>
+		</div>
+
+		<button class="btn btn-primary" type="submit">Submit</button>
+	</form>
+	<% } %>
+
+	<%- include('../includes/footer.ejs') %>
