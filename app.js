@@ -4,14 +4,25 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const mongodb =
+const compression = require("compression");
+const helmet = require("helmet");
+
+// Set up mongoose connection
+const dev_db_url =
   "mongodb+srv://mohib:kyrim1g5@cluster0.zenpm.mongodb.net/local_library?retryWrites=true&w=majority";
+const mongodb = process.env.MONGODB_URI || dev_db_url;
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const catalogRouter = require("./routes/catalog"); //Import routes for "catalog" area of site
 
 const app = express();
+
+//It set appropriate HTTP headers that help protect your app from well-known web vulnerabilities
+app.use(helmet());
+
+//Compress all routes
+app.use(compression());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
