@@ -13,7 +13,7 @@ const helmet = require("helmet");
 //   "mongodb+srv://mohib:kyrim1g5@cluster0.zenpm.mongodb.net/local_library?retryWrites=true&w=majority";
 
 const dev_db_url =
-  "mongodb+srv://mohib:kyrim1g5@cluster0.zenpm.mongodb.net/local_library?retryWrites=true";
+  "mongodb+srv://mohib:kyrim1g5@cluster0.zenpm.mongodb.net/local_library?retryWrites=true&w=majority";
 const mongodb = process.env.MONGODB_URI || dev_db_url;
 
 const indexRouter = require("./routes/index");
