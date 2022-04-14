@@ -8,6 +8,10 @@ const compression = require("compression");
 const helmet = require("helmet");
 
 // Set up mongoose connection
+
+// const mongodb =
+//   "mongodb+srv://mohib:kyrim1g5@cluster0.zenpm.mongodb.net/local_library?retryWrites=true&w=majority";
+
 const dev_db_url =
   "mongodb+srv://mohib:kyrim1g5@cluster0.zenpm.mongodb.net/local_library?retryWrites=true";
 const mongodb = process.env.MONGODB_URI || dev_db_url;
