@@ -21,7 +21,7 @@ var BookInstance = require("./models/bookinstance");
 var mongoose = require("mongoose");
 // var mongoDB = userArgs[0];
 var mongoDB =
-  "mongodb+srv://mohib:kyrim1g5@cluster0.zenpm.mongodb.net/local_library?retryWrites=true&w=majority";
+  "mongodb+srv://mohib:kyrim1g5@cluster0.zenpm.mongodb.net/local_library_deployed?retryWrites=true&w=majority";
 
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = global.Promise;
