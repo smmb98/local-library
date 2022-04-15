@@ -57,7 +57,7 @@ exports.book_list = function (req, res, next) {
 };
 
 //////////////////////////////////////////////////// Display detail page for a specific book.
-exports.book_detail = function (req, res) {
+exports.book_detail = function (req, res, next) {
   // res.send("NOT IMPLEMENTED: Book detail: " + req.params.id);
 
   async.parallel(
